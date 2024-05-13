@@ -1,0 +1,63 @@
+<div class="col-12">
+  <form [formGroup]="form">
+    <div class="row mx-auto">
+        <div class="col-lg-3 sm-12">
+          <mat-form-field class="formField">
+          <input matInput placeholder="Descrição" formControlName="descricao">
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('descricao')?.errors?.['required']
+          && form.get('descricao')?.touched">
+          A descrição é obrigatória
+        </div>
+      </div>
+      <div class="col-lg-3 sm-12">
+        <mat-form-field class="formField" [floatLabel]="'always'">
+          <mat-label>Valor</mat-label>
+          <input matInput type="number" value="0" min="1" formControlName="valor">
+          <span matTextPrefix>R$&nbsp;</span>
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('valor')?.errors?.['required']
+          && form.get('valor')?.touched">
+          O valor é obrigatório
+        </div>
+        <div class="mensagem__erro" *ngIf="form.get('valor')?.errors?.['min']
+          && form.get('valor')?.touched">
+          O valor precisa ser maior que zero
+        </div>
+      </div>
+
+      <div class="col-lg-3 sm-12">
+        <mat-form-field class="formField">
+          <input matInput placeholder="Empresa" formControlName="empresa">
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('empresa')?.errors?.['required']
+          && form.get('empresa')?.touched">
+          O nome da empresa é obrigatório
+        </div>
+      </div>
+
+      <div class="col-lg-3 sm-12">
+        <mat-form-field class="formField">
+          <input matInput [matDatepicker]="picker" placeholder="Data de vencimento" formControlName="dataVencimento">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('dataVencimento')?.errors?.['required']
+          && form.get('dataVencimento')?.touched">
+          A data de vencimento é obrigatória
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row-reverse">
+      <button
+        color="primary"
+        mat-flat-button
+        [disabled]="!form.valid"
+        (click)="submitForm()">
+        Cadastrar
+      </button>
+    </div>
+  </form>
+</div>

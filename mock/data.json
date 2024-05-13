@@ -1,0 +1,68 @@
+{
+    "contas-receber": [
+        {
+            "id": "1",
+            "title": "conta 1",
+            "company": "Empresa X",
+            "date": "12/03/2024",
+            "value": "R$ 500,00",
+            "status": "Pago"
+        },
+        {
+            "id": "2",
+            "title": "conta 2",
+            "company": "Empresa Z",
+            "date": "12/05/2024",
+            "value": "R$ 3.500,00",
+            "status": "Pagar"
+        }
+    ],
+    "contas-pagar": [
+        {
+            "id": "1",
+            "title": "conta 1",
+            "company": "Empresa X",
+            "date": "12/05/2024",
+            "value": "R$ 1.500,00"
+        },
+        {
+            "id": "2",
+            "title": "conta 2",
+            "company": "Empresa X",
+            "date": "12/06/2024",
+            "value": "R$ 1.500,00"
+        },
+        {
+            "id": "3",
+            "title": "conta 3",
+            "company": "Empresa X",
+            "date": "12/07/2024",
+            "value": "R$ 1.500,00"
+        },
+        {
+            "id": "4",
+            "title": "conta 4",
+            "company": "Empresa X",
+            "date": "12/08/2024",
+            "value": "R$ 1.500,00"
+        },
+        {
+            "id": "5",
+            "title": "conta 5",
+            "company": "Empresa X",
+            "date": "12/09/2024",
+            "value": "R$ 1.500,00"
+        }
+    ],
+    "pessoas": [
+        {
+            "id": "1",
+            "name": "João",
+            "document": "12332145676",
+            "birthdate": "02/05/1997",
+            "email": "joao@email.com",
+            "phone": "11 3232-3232",
+            "cellNumber": "11 9 9999-9999"
+        }
+    ]
+}

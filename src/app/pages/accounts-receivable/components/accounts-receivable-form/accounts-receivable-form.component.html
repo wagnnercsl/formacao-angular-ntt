@@ -1,0 +1,78 @@
+<div class="col-12">
+  <form [formGroup]="form">
+    <div class="row mx-auto">
+        <div class="col-lg-3 sm-12">
+          <mat-form-field class="formField">
+          <input matInput placeholder="Descrição" formControlName="title">
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('title')?.errors?.['required']
+          && form.get('title')?.touched">
+          A descrição é obrigatória
+        </div>
+      </div>
+      <div class="col-lg-2 sm-12">
+        <mat-form-field class="formField" [floatLabel]="'always'">
+          <mat-label>Valor</mat-label>
+          <input matInput type="number" value="0" min="1" formControlName="value">
+          <span matTextPrefix>R$&nbsp;</span>
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('value')?.errors?.['required']
+          && form.get('value')?.touched">
+          O valor é obrigatório
+        </div>
+        <div class="mensagem__erro" *ngIf="form.get('valor')?.errors?.['min']
+          && form.get('valor')?.touched">
+          O valor precisa ser maior que zero
+        </div>
+      </div>
+
+      <div class="col-lg-2 sm-12">
+        <mat-form-field class="formField">
+          <input matInput placeholder="Empresa" formControlName="company">
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('company')?.errors?.['required']
+          && form.get('company')?.touched">
+          O nome da empresa é obrigatório
+        </div>
+      </div>
+
+      <div class="col-lg-3 sm-12">
+        <mat-form-field class="formField">
+          <input matInput [matDatepicker]="picker" placeholder="Data de vencimento" formControlName="date">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('date')?.errors?.['required']
+          && form.get('date')?.touched">
+          A data de vencimento é obrigatória
+        </div>
+      </div>
+
+      <div class="col-lg-2 sm-12">
+        <mat-form-field class="formField">
+          <mat-select formControlName="status" >
+            @for (item of paidStatus; track item) {
+              <mat-option [value]="item.value">{{item.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('status')?.errors?.['required']
+          && form.get('status')?.touched">
+          O status é obrigatório
+        </div>
+      </div>
+
+    </div>
+
+    <div class="d-flex flex-row-reverse">
+      <button
+        color="primary"
+        mat-flat-button
+        [disabled]="!form.valid"
+        (click)="submitForm()">
+        Cadastrar
+      </button>
+    </div>
+  </form>
+</div>

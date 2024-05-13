@@ -1,0 +1,33 @@
+<div class="mt-3 p-2">
+  <h2>Relatórios</h2>
+</div>
+
+<div class="col-12">
+  <form [formGroup]="form">
+    <div class="row mx-auto">
+      <div class="col-lg-2 sm-12">
+        <mat-label>Selecione o tipo de relatório</mat-label>
+        <mat-form-field class="formField">
+          <mat-select formControlName="reportType" >
+            @for (item of reportTypes; track item) {
+              <mat-option [value]="item.value">{{item.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div class="mensagem__erro" *ngIf="form.get('reportType')?.errors?.['required']
+          && form.get('reportType')?.touched">
+          O tipo de relatório precisa ser informado
+        </div>
+
+        <button
+          color="primary"
+          mat-flat-button
+          [disabled]="!form.valid"
+          (click)="submitForm()">
+          Gerar Relatório
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+

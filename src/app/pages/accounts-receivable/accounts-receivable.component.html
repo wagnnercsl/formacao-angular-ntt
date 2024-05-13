@@ -1,0 +1,13 @@
+<div class="mt-3 p-2">
+  <h2>Contas a Receber</h2>
+</div>
+<mat-stepper [linear]="true" #stepper (selectionChange)="onStepChange($event)">
+  <mat-step>
+    <ng-template matStepLabel>Cadastrar conta</ng-template>
+    <app-accounts-receivable-form></app-accounts-receivable-form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Visualizar contas</ng-template>
+    <app-accounts-receivable-list [receivableAccounts]="receivableAccounts"></app-accounts-receivable-list>
+  </mat-step>
+</mat-stepper>

@@ -1,0 +1,13 @@
+<div class="mt-3 p-2">
+  <h2>Usuários</h2>
+</div>
+<mat-stepper [linear]="true" #stepper (selectionChange)="onStepChange($event)">
+  <mat-step>
+    <ng-template matStepLabel>Cadastrar pessoa</ng-template>
+    <app-people-form></app-people-form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Visualizar pessoas</ng-template>
+    <app-people-list [peopleList]="peopleList"></app-people-list>
+  </mat-step>
+</mat-stepper>
