@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { AccountsReceivableService } from '../../../../shared/service/accounts-receivable/accounts-receivable.service';
 import { IReceivableAccount } from '../../../../shared/interfaces/IReceivableAccount';
 import { PaidStatusEnum } from '../../../../shared/enums/PaidStatusEnum';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-accounts-receivable-form',
@@ -11,7 +12,10 @@ import { PaidStatusEnum } from '../../../../shared/enums/PaidStatusEnum';
   styleUrl: './accounts-receivable-form.component.css'
 })
 export class AccountsReceivableFormComponent {
+
   form!: FormGroup;
+  @ViewChild(FormGroupDirective) formRef!: FormGroupDirective;
+
   paidStatus = [
     {value: PaidStatusEnum.PAGO, viewValue: 'Pago'},
     {value: PaidStatusEnum.PENDENTE, viewValue: 'Pagar'}
@@ -19,7 +23,9 @@ export class AccountsReceivableFormComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private accountsReceivableService: AccountsReceivableService) {}
+    private accountsReceivableService: AccountsReceivableService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -47,8 +53,8 @@ export class AccountsReceivableFormComponent {
       }
 
       this.accountsReceivableService.addItem(newItem);
-      alert(`cadastrando! id: ${id}`);
-      this.form.reset();
+      this._snackBar.open('Conta cadastrada com sucesso!', 'Fechar', { duration: 3000, verticalPosition: 'bottom'});
+      this.formRef.resetForm();
     }
   }
 }

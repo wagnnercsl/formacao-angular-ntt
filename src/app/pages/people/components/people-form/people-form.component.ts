@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { PeopleService } from '../../../../shared/service/people/people.service';
 import { IPeople } from '../../../../shared/interfaces/IPeople';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-people-form',
@@ -12,10 +13,13 @@ import { IPeople } from '../../../../shared/interfaces/IPeople';
 export class PeopleFormComponent {
 
   form!: FormGroup;
+  @ViewChild(FormGroupDirective) formRef!: FormGroupDirective;
 
   constructor(
     private formBuilder: FormBuilder,
-    private peopleService: PeopleService) {}
+    private peopleService: PeopleService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -44,8 +48,8 @@ export class PeopleFormComponent {
       }
 
       this.peopleService.addItem(newItem);
-      alert(`cadastrando! id: ${id}`);
-      this.form.reset();
+      this._snackBar.open('Pessoa cadastrada com sucesso!', 'Fechar', { duration: 3000, verticalPosition: 'bottom'});
+      this.formRef.resetForm();
     }
   }
 }
