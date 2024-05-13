@@ -13,9 +13,7 @@ export class AccountsReceivableComponent {
 
   receivableAccounts:IReceivableAccount[] = [];
 
-  constructor(private accountsReceivableService: AccountsReceivableService) {
-
-  }
+  constructor(private accountsReceivableService: AccountsReceivableService) {}
 
   ngOnInit() {
     this.accountsReceivableService.accountsReceivable$.subscribe((items) => {

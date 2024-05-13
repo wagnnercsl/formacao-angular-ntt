@@ -1,9 +1,9 @@
 <div class="col-12">
   <table
     mat-table
-    [dataSource]="receivableAccounts"
+    [dataSource]="dataSource"
     class="mat-elevation-z8"
-    matSort (matSortChange)="sortTable($event)"
+    matSort
   >
 
   <ng-container matColumnDef="title">
@@ -36,7 +36,7 @@
   </table>
   <mat-paginator
     [length]="receivableAccounts.length"
-    [pageSizeOptions]="[2, 5, 10]"
+    [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons
     aria-label="Selecione uma página de contas a pagar"
   >

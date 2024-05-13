@@ -1,7 +1,9 @@
-import { Sort } from '@angular/material/sort';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { IPayableAccount } from '../../../../shared/interfaces/IPayableAccount';
 import { AccountsPayableService } from '../../../../shared/service/accounts-payable/accounts-payable.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-accounts-payable-list',
@@ -14,61 +16,25 @@ export class AccountsPayableListComponent {
   payableAccounts:IPayableAccount[] = [];
 
   displayedColumns:string[] = ['title', 'company', 'date', 'value'];
+  dataSource = new MatTableDataSource<IPayableAccount>(this.payableAccounts);
 
-  constructor(
-    private accountsPayableService: AccountsPayableService
-  ) {
-    this.payableAccounts = this.payableAccounts.slice();
+  @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort!: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
-  ngOnInit(): void {
-  }
+  constructor(private accountsPayableService: AccountsPayableService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if(changes['payableAccounts']){
       this.accountsPayableService.getItems().subscribe((items) => {
         this.payableAccounts = items;
-        this.payableAccounts = [...this.payableAccounts];
+        this.dataSource.data = this.payableAccounts
       })
     }
   }
-
-  sortTable(sort: Sort): void {
-    const data = this.payableAccounts.slice();
-    if(!sort.active || sort.direction === '') {
-      this.payableAccounts = data;
-      return;
-    }
-
-    this.payableAccounts = [...data].sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-
-      let numberValueA = '';
-      let numberValueB = '';
-
-      if(sort.active === 'value') {
-        const stringValueA = a.value.split('R$')[1];
-        numberValueA = stringValueA.replaceAll('.', '').replace(',', '.');
-        const stringValueB = b.value.split('R$')[1];
-        numberValueB = stringValueB.replaceAll('.', '').replace(',', '.');
-      }
-
-      switch (sort.active) {
-        case 'title':
-          return compare(a.title, b.title, isAsc);
-        case 'company':
-          return compare(a.company, b.company, isAsc);
-        case 'date':
-          return compare(a.date, b.date, isAsc);
-        case 'value':
-          return compare(numberValueA, numberValueB, isAsc);
-        default:
-          return 0;
-      }
-    })
-  }
 }
 
-function compare(a: number | string, b: number | string, isAsc: boolean) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}

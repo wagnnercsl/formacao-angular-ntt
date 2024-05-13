@@ -1,8 +1,10 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { IPeople } from '../../../../shared/interfaces/IPeople';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { PeopleService } from '../../../../shared/service/people/people.service';
-import { Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-people-list',
@@ -14,17 +16,25 @@ export class PeopleListComponent {
 
   @Input()
   peopleList:IPeople[] = [];
+
+  dataSource = new MatTableDataSource<IPeople>(this.peopleList);
   displayedColumns:string[] = ['name', 'document', 'birthdate', 'email',  'phone', 'cellNumber'];
 
-  constructor(private peopleService: PeopleService) {
+  constructor(private peopleService: PeopleService) {}
 
+  @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort!: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if(changes['peopleList']){
       this.peopleService.getItems().subscribe((items) => {
         this.peopleList = items;
-        this.peopleList = [...this.peopleList]
+        this.dataSource.data = this.peopleList
       })
     }
   }
@@ -36,33 +46,4 @@ export class PeopleListComponent {
       })
     }
   }
-
-  sortTable(sort: Sort): void {
-    const data = this.peopleList.slice();
-    if(!sort.active || sort.direction === '') {
-      this.peopleList = data;
-      return;
-    }
-
-    this.peopleList = [...data].sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-
-      switch (sort.active) {
-        case 'name':
-          return compare(a.name, b.name, isAsc);
-        case 'document':
-          return compare(a.document, b.document, isAsc);
-        case 'birthdate':
-          return compare(a.birthdate, b.birthdate, isAsc);
-        case 'email':
-          return compare(a.email, b.email, isAsc);
-        default:
-          return 0;
-      }
-    })
-  }
-}
-
-function compare(a: number | string, b: number | string, isAsc: boolean) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
